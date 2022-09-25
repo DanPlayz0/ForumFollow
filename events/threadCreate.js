@@ -10,6 +10,10 @@ module.exports = class extends Event {
   async run(client, thread) {
     if (client.channels.cache.get(thread.parentId)?.type != 15) return;
     await sleep(500);
+
+    const fourmSettings = await client.database.findOne('channels', {id: thread.parentId});
+    if(!fourmSettings || fourmSettings.behavior != 'create') return;
+
     const followedPeople = await client.database.find('follow', {followid: thread.parentId});
     if(followedPeople.length == 0) return;
     

@@ -2,6 +2,7 @@ const Command = require('@structures/framework/Command');
 const crosspostBehaviors = [
   {name: 'When Post Created', value: 'create'},
   // {name: 'On Context Menu', value: 'context'},
+  {name: 'Disabled', value: 'disabled'},
 ];
 module.exports = class extends Command {
   constructor(client) {
@@ -49,6 +50,7 @@ module.exports = class extends Command {
       }
     });
     await followAble.join();
+    await followAble.edit({flags:2});
 
     await ctx.database.insertOne('channels', { id: channel.id, behavior: behaviorStr });
     ctx.sendMsg(`People can now follow ${ctx.args.getChannel('channel')} and posts will only be crossposted \`${crosspostBehaviors.find(x=>x.value === behaviorStr).name}\`!`, {ephemeral: true})
