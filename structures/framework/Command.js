@@ -48,7 +48,7 @@ module.exports = class Command {
       } catch (err) {
         console.error(err);
         ctx.client.webhooks.error.send(`**${ctx.client.user.username} - Command Error:**\n\`\`\`\n${err.stack}`.slice(0,1995)+'\`\`\`')
-        ctx.sendMsg(new ctx.MessageEmbed()
+        ctx.sendMsg(new ctx.EmbedBuilder()
           .setTitle('Oops')
           .setColor('Red')
           .setDescription(`The error that occured has been logged into our systems. If this is repeative, report it to DanPlayz#7757 at <${ctx.client.config.supportServerInvite}>.\n\`\`\`js\n${err.message}\`\`\``))

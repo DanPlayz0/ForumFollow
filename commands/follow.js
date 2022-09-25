@@ -68,17 +68,17 @@ module.exports = class extends Command {
       else if(interaction.customId === 'followc_confirm') {
         collector.stop('start');
         const followExists = await ctx.database.findOne('follow', { guildid: ctx.guild.id, channelid: updateChannel.id, followid: followChannel.id, active: true });
-        if (followExists) return ctx.sendMsg(new ctx.MessageEmbed().setTitle('Channel Follow Cancelled').setDescription(`The channel ${updateChannel} is already following ${followChannel}.`).setColor('Red'), {components:[],ephemeral:true});
+        if (followExists) return ctx.sendMsg(new ctx.EmbedBuilder().setTitle('Channel Follow Cancelled').setDescription(`The channel ${updateChannel} is already following ${followChannel}.`).setColor('Red'), {components:[],ephemeral:true});
         
         const webhook = await updateChannel.createWebhook({ name: `${ctx.guild.name} #${followChannel.name}`, avatar: ctx.client.guilds.cache.get(ctx.guild.id).iconURL({format:"png",static:true}), reason: `Followed ${followChannel.name} (${followChannel.id}) from ${ctx.guild.name}` });
         await ctx.database.insertOne('follow', { guildid: ctx.guild.id, channelid: updateChannel.id, followid: followChannel.id, active: true, webhook: { id: webhook.id, token: webhook.token }, messages: [] });
-        return ctx.sendMsg(new ctx.MessageEmbed().setTitle('Channel Followed 🎉').setDescription(`The channel ${followChannel} was successfully **followed**.`).setColor('Green'), {components:[], ephemeral:true});
+        return ctx.sendMsg(new ctx.EmbedBuilder().setTitle('Channel Followed 🎉').setDescription(`The channel ${followChannel} was successfully **followed**.`).setColor('Green'), {components:[], ephemeral:true});
       }
     })
 
     collector.on('end', (_,reason) => {
       if(reason === 'start') return;
-      ctx.sendMsg(new ctx.MessageEmbed().setTitle('Channel Follow Cancelled').setDescription(`The channel ${followChannel} was **not** followed.`).setColor('Red'), {components:[],ephemeral:true});
+      ctx.sendMsg(new ctx.EmbedBuilder().setTitle('Channel Follow Cancelled').setDescription(`The channel ${followChannel} was **not** followed.`).setColor('Red'), {components:[],ephemeral:true});
     })
   }
   

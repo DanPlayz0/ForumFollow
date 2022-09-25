@@ -10,7 +10,7 @@ module.exports = class extends Event {
     console.log(`[GUILD JOIN] ${guild.name} (${guild.id}) added the bot. Owner: ${guild.ownerId}`);
     
     const owner = await guild.fetchOwner();
-    const e = new client.discord.MessageEmbed()
+    const e = new client.discord.EmbedBuilder()
       .setTitle(`JOINED \`${guild.name}\``)
       .setColor('#36393E')
       .setDescription(`Members: ${guild.memberCount}\nID: ${guild.id}\nOwner: ${owner.user.username} (${guild.ownerId})`);

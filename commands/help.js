@@ -20,7 +20,7 @@ module.exports = class extends Command {
   }
 
   async run(ctx) {
-    const embed = new ctx.MessageEmbed().setColor('Blurple');
+    const embed = new ctx.EmbedBuilder().setColor('Blurple');
       
     if (ctx.args.getString('command')) return this.commandInfo(ctx, ctx.args.getString('command'), embed);
     
