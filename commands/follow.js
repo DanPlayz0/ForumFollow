@@ -3,7 +3,7 @@ module.exports = class extends Command {
   constructor(client) {
     super(client, {
       enabled: true,
-      description: 'Make a fourm channel followable.',
+      description: 'Follow a forum channel.',
       options: [
         {
           type: 3,
