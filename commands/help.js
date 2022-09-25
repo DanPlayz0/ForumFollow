@@ -17,12 +17,9 @@ module.exports = class extends Command {
       ],
       category: "General",
     })
-
-    // The line below defines both slash & text based commands to run the 'helpMenu' function
-    this.runInteraction = this.runMessage = this.helpMenu;
   }
 
-  async helpMenu(ctx) {
+  async run(ctx) {
     const embed = new ctx.MessageEmbed().setColor('Blurple');
       
     if (ctx.args.getString('command')) return this.commandInfo(ctx, ctx.args.getString('command'), embed);

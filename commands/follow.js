@@ -21,9 +21,6 @@ module.exports = class extends Command {
       ],
       category: "General",
     })
-
-    // The line below defines both slash & text based commands to run the 'helpMenu' function
-    this.runInteraction = this.runMessage = this.run;
   }
 
   async run(ctx) {
