@@ -1,7 +1,7 @@
 const Command = require('@structures/framework/Command');
 const crosspostBehaviors = [
   {name: 'When Post Created', value: 'create'},
-  {name: 'On Context Menu', value: 'context'},
+  // {name: 'On Context Menu', value: 'context'},
 ];
 module.exports = class extends Command {
   constructor(client) {
