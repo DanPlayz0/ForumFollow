@@ -29,8 +29,6 @@ module.exports = class BotClient extends Discord.Client {
       
     };
     this.framework = {
-      messageContext: require("@structures/framework/ContextMessage"),
-      messageArguments: require("@structures/framework/MessageArguments"),
       interactionContext: require("@structures/framework/ContextInteraction"),
     }
     this.database = new (require('./DatabaseManager.js'))(this);

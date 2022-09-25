@@ -38,10 +38,4 @@ module.exports = {
     { name: "command", id: private.webhooks?.command?.id, token: private.webhooks?.command?.token },
     { name: "guilds", id: private.webhooks?.guilds?.id, token: private.webhooks?.guilds?.token },
   ],
-
-  // Bot settings (Default)
-  settings: {
-    prefix: '!',
-  },
-
 }
