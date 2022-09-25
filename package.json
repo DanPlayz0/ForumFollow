@@ -1,0 +1,51 @@
+{
+  "dependencies": {
+    "axios": "^0.25.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "discord.js": "^14.4.0",
+    "express": "^4.17.2",
+    "hashids": "^2.2.10",
+    "humanize-duration": "^3.27.1",
+    "ioredis": "^4.28.3",
+    "klaw": "^4.0.1",
+    "module-alias": "^2.2.2",
+    "moment": "^2.29.1",
+    "moment-duration-format": "^2.3.2",
+    "moment-timezone": "^0.5.34",
+    "mongoose": "^6.1.7",
+    "node-fetch": "^3.2.0"
+  },
+  "name": "discordbot-boilerplate",
+  "version": "1.0.0",
+  "description": "A basic boilerplate using Discord.JS",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node index.js",
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanPlayz0/DiscordBot-Boilerplate.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "boilerplate"
+  ],
+  "author": "DanPlayz0",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DanPlayz0/DiscordBot-Boilerplate/issues"
+  },
+  "homepage": "https://github.com/DanPlayz0/DiscordBot-Boilerplate#readme",
+  "_moduleAliases": {
+    "@root": ".",
+    "@website": "./website/",
+    "@commands": "./commands/",
+    "@events": "./events/",
+    "@handlers": "./handlers/",
+    "@structures": "./structures/"
+  }
+}
