@@ -3,7 +3,7 @@ const { Router } = require("express");
 const route = Router();
 
 route.get('/stats', async (req, res, next) => {
-  let redisStats = await req.redis.get(`${req.client.redis.prefix}:BOT:STATS`);
+  let redisStats = await req.redis.get(`${req.client.config.redis.prefix}BOT:STATS`);
   if(req.query.forceCache) redisStats = null;
   if(redisStats) redisStats = JSON.parse(redisStats)
   else {
@@ -32,7 +32,7 @@ route.get('/stats', async (req, res, next) => {
         ping: Math.round(ping.reduce((users, num) => num + users, 0) / ping.length)
       }
     };
-    await req.redis.setex(`${req.client.redis.prefix}:BOT:STATS`, 2 * 60, JSON.stringify(redisStats))
+    await req.redis.setex(`${req.client.config.redis.prefix}BOT:STATS`, 2 * 60, JSON.stringify(redisStats))
   }
   res.json(redisStats)
 });
