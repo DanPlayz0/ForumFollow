@@ -10,8 +10,8 @@ module.exports = class extends Event {
     console.log(`Logged in as ${client.user.tag}`);
 
     async function setupInit() {
-      // Set the game as the "Watching fourms • /help"
-      client.user.setActivity(`fourms • /help`, { type: 3 });
+      // Set the game as the "Watching forums • /help"
+      client.user.setActivity(`forums • /help`, { type: 3 });
     }
 
     client.activityInterval = setInterval(setupInit, 90000);
