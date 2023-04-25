@@ -19,7 +19,6 @@ module.exports = class extends Event {
     
     const messages = await thread.messages.fetch();
     const message = messages.first();
-    
 
     let followMessage = `**${thread.name}**\n${message.content}`;
     if(followMessage.length > 2000) followMessage = followMessage.slice(0,1997)+'...'
@@ -38,9 +37,5 @@ module.exports = class extends Event {
       await sleep(200);
     }
 
-
-    
-
   }
-
 }

@@ -38,19 +38,21 @@ module.exports = class extends Command {
       return;
     }
 
-    const followAble = await channel.threads.create({
-      name: "Follow Posts", autoArchiveDuration: 10080,
-      message: { 
-        content: "Add this channel's posts to your server!\nPressing the button below will provide instructions to follow this channel.", 
-        components: [
-          {type:1, components:[
-          {type:2, style:3, label: "Follow", custom_id: 'follow_channel'},
-          {type:2, style:5, label: "Invite", url: `https://discord.com/api/oauth2/authorize?client_id=1023320359786774528&permissions=395674250320&scope=applications.commands%20bot` }
-        ]}]
-      }
-    });
-    await followAble.join();
-    await followAble.edit({flags:2});
+    try {
+      const followAble = await channel.threads.create({
+        name: "Follow Posts", autoArchiveDuration: 10080,
+        message: { 
+          content: "Add this channel's posts to your server!\nPressing the button below will provide instructions to follow this channel.", 
+          components: [
+            {type:1, components:[
+            {type:2, style:3, label: "Follow", custom_id: 'follow_channel'},
+            {type:2, style:5, label: "Invite", url: `https://discord.com/api/oauth2/authorize?client_id=1023320359786774528&permissions=395674250320&scope=applications.commands%20bot` }
+          ]}]
+        }
+      });
+      await followAble.join();
+      await followAble.edit({flags:2});
+    } catch {}
 
     await ctx.database.insertOne('channels', { id: channel.id, behavior: behaviorStr });
     ctx.sendMsg(`People can now follow ${ctx.args.getChannel('channel')} and posts will only be crossposted \`${crosspostBehaviors.find(x=>x.value === behaviorStr).name}\`!`, {ephemeral: true})
