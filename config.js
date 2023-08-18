@@ -7,7 +7,7 @@ try {
       shard: process.env.WEBHOOK_SHARD,
       error: process.env.WEBHOOK_ERROR,
       command: process.env.WEBHOOK_COMMAND,
-      guild: process.env.WEBHOOK_GUILD,
+      guilds: process.env.WEBHOOK_GUILD,
     } 
   }
 } catch {}
@@ -34,9 +34,9 @@ module.exports = {
   
   // Bot Logging (Webhooks)
   webhooks: [
-    { name: "shard", id: private.webhooks?.shard?.id, token: private.webhooks?.shard?.token },
-    { name: "error", id: private.webhooks?.error?.id, token: private.webhooks?.error?.token },
-    { name: "command", id: private.webhooks?.command?.id, token: private.webhooks?.command?.token },
-    { name: "guilds", id: private.webhooks?.guilds?.id, token: private.webhooks?.guilds?.token },
+    { name: "shard", url: private.webhooks?.shard },
+    { name: "error", url: private.webhooks?.error },
+    { name: "command", url: private.webhooks?.command },
+    { name: "guilds", url: private.webhooks?.guilds },
   ],
 }
