@@ -6,7 +6,7 @@ module.exports = class RestAPI {
 
     // Web Server
     this.express = express();
-    this.express.use(async (req,res,next) => { req.client = this.client; req.redis = this.client.redis; next(); })
+    this.express.use(async (req,res,next) => { req.client = this.client; next(); })
     this.express.use(cookieParser());
     this.express.use(express.json());
     this.express.use(express.urlencoded({extended: true}));
@@ -23,7 +23,6 @@ module.exports = class RestAPI {
   }
 
   loadRoutes() {
-    this.express.use("/auth", require(`@structures/restapi/auth/index.js`));
     this.express.use("/v1", require(`@structures/restapi/v1/index.js`));
     return this;
   }

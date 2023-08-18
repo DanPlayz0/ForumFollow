@@ -7,7 +7,6 @@
     "express": "^4.17.2",
     "hashids": "^2.2.10",
     "humanize-duration": "^3.27.1",
-    "ioredis": "^4.28.3",
     "klaw": "^4.0.1",
     "module-alias": "^2.2.2",
     "moment": "^2.29.1",
