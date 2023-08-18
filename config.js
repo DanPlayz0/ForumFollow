@@ -2,7 +2,7 @@ let private;
 try {
   private = {
     token: process.env.DISCORD_TOKEN,
-    mongo_uri: process.env.MONOG_URI,
+    mongo_uri: process.env.MONGODB_URI,
     webhooks: {
       shard: process.env.WEBHOOK_SHARD,
       error: process.env.WEBHOOK_ERROR,
