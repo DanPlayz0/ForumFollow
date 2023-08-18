@@ -54,7 +54,7 @@ module.exports = class extends Command {
       await followAble.edit({flags:2});
     } catch {}
 
-    await ctx.database.insertOne('channels', { id: channel.id, behavior: behaviorStr });
+    await ctx.database.insertOne('channels', { id: channel.id, behavior: behaviorStr, followByOthers: "everyone" });
     ctx.sendMsg(`People can now follow ${ctx.args.getChannel('channel')} and posts will only be crossposted \`${crosspostBehaviors.find(x=>x.value === behaviorStr).name}\`!`, {ephemeral: true})
   }
   

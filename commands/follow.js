@@ -34,6 +34,7 @@ module.exports = class extends Command {
     if (followChannel.type != 15) return ctx.sendMsg("You can only follow **forum** channels.");
     const followable = await ctx.database.findOne('channels', { id: followChannel.id });
     if (!followable) return ctx.sendMsg("That channel was not setup to be followed.");
+    // if (followable.followByOthers == "own" && )
 
     const updateChannel = ctx.args.getChannel('destination');
     
