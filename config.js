@@ -1,3 +1,4 @@
+require('dotenv').config();
 module.exports = {
   // Bot Token
   token: process.env.DISCORD_TOKEN,
