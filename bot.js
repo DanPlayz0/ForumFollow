@@ -1,5 +1,4 @@
 require('module-alias/register');
-require('./config');
 
 const { Partials } = require('discord.js');
 const BotClient = require('@structures/bot/Client.js');
@@ -14,6 +13,7 @@ const client = new BotClient({
   ],
   partials: [Partials.Message, Partials.Channel]
 });
+client.config = require('./config');
 
 client.login(client.config.token);
 
