@@ -14,6 +14,7 @@ const client = new BotClient({
   partials: [Partials.Message, Partials.Channel]
 });
 client.config = require('./config');
+client.start();
 
 client.login(client.config.token);
 
