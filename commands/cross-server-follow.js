@@ -29,12 +29,12 @@ module.exports = class extends Command {
   }
 
   async run(ctx) {
-    const channel = ctx.args.getChannel('channel'), behaviorStr = ctx.args.getString('crosspost');
+    const channel = ctx.args.getChannel('channel'), behaviorStr = ctx.args.getString('toggle');
     const forumFollow = await ctx.database.findOne('channels', {id: channel.id});
     if (!forumFollow) return ctx.sendMsg("Please set that channel as a followable channel before configuring the cross-server following setting.");
     
     await ctx.database.updateOne('channels', {id: channel.id}, {$set: { followByOthers: behaviorStr }})
-    ctx.sendMsg(`The behavior for other servers has changed from \`${crosspostBehaviors.find(x=>x.value === (forumFollow?.followByOthers||"everyone"))?.name}\` to \`${crosspostBehaviors.find(x=>x.value === behaviorStr).name}\``)
+    ctx.sendMsg(`The behavior for other servers has changed from \`${crosspostBehaviors.find((x) => x.value === (forumFollow?.followByOthers||"everyone"))?.name}\` to \`${crosspostBehaviors.find((x) => x.value === behaviorStr)?.name}\``)
   }
   
 }
