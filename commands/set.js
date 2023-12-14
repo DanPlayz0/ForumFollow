@@ -30,6 +30,8 @@ module.exports = class extends Command {
   }
 
   async run(ctx) {
+    if(!ctx.member.permissions.has('ManageChannels')) return ctx.sendMsg('You must have `MANAGE_CHANNELS` to set a channel as followable.');
+
     const channel = ctx.args.getChannel('channel'), behaviorStr = ctx.args.getString('crosspost');
     const forumFollow = await ctx.database.findOne('channels', {id: channel.id});
     if(forumFollow) {

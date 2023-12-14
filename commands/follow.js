@@ -25,7 +25,8 @@ module.exports = class extends Command {
 
   async run(ctx) {
     if(!ctx.member.permissions.has('ManageGuild')) return ctx.sendMsg('You must have `MANAGE_GUILD` to follow a channel.');
-    if(!ctx.guild.members.me.permissions.has('ManageWebhooks')) return ctx.sendMsg('You must have `MANAGE_WEBHOOKS` to follow a channel.');
+    if(!ctx.member.permissions.has('ManageWebhooks')) return ctx.sendMsg('You must have `MANAGE_WEBHOOKS` to follow a channel.');
+    if(!ctx.guild.members.me.permissions.has('ManageWebhooks')) return ctx.sendMsg('I am missing `MANAGE_WEBHOOKS` to execute this command.');
 
     const channelId = ctx.args.getString('id').replace(/[^\d]/g,'');
 

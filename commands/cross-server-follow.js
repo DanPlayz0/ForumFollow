@@ -29,6 +29,8 @@ module.exports = class extends Command {
   }
 
   async run(ctx) {
+    if(!ctx.member.permissions.has('ManageGuild')) return ctx.sendMsg('You must have `MANAGE_GUILD` to configure a channel.');
+
     const channel = ctx.args.getChannel('channel'), behaviorStr = ctx.args.getString('toggle');
     const forumFollow = await ctx.database.findOne('channels', {id: channel.id});
     if (!forumFollow) return ctx.sendMsg("Please set that channel as a followable channel before configuring the cross-server following setting.");
