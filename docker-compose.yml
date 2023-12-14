@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: './Dockerfile'
+    network_mode: bridge
     ports:
       - '9002:3000'
     environment:
