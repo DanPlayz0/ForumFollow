@@ -17,6 +17,30 @@ module.exports = class extends Command {
           description: "The channel to send the updates into.",
           channel_types: [0,5],
           required: true, 
+        },
+        {
+          type: 3,
+          name: 'copy-pings',
+          description: "Whether to copy pings from the forum thread. (This can cause un-intended @everyone/@here pings. Use with caution.)",
+          required: true,
+          choices: [
+            { name: 'All Pings (everyone, here, user & role)', value: 'all' },
+            { name: 'Role Pings Only', value: 'role' },
+            { name: 'User Pings Only', value: 'user' },
+            { name: 'User & Role Pings Only', value: 'user_role' },
+            { name: '@ everyone & @ here only', value: 'everyone' },
+            { name: 'None (Default)', value: 'none' },
+          ]
+        },
+        {
+          type: 3,
+          name: 'copy-content',
+          description: "Whether to copy content from the forum thread.",
+          required: true,
+          choices: [
+            { name: 'Yes', value: 'yes' },
+            { name: 'No (Title only)', value: 'no' },
+          ]
         }
       ],
       category: "General",
@@ -53,6 +77,8 @@ module.exports = class extends Command {
         { name: 'Update Channel', value: ''+updateChannel.toString(), inline: true},
         { name: 'Update Channel ID', value: ''+updateChannel.id, inline: true},
         { name: '\u200b', value: '\u200b', inline: true},
+        { name: 'Copy Pings (to Update Channel)', value: ''+ctx.args.getString('copy-pings'), inline: true},
+        { name: 'Copy Content (to Update Channel)', value: ''+ctx.args.getString('copy-content'), inline: true},
       ])
       .setFooter({text: `This will create a webhook in the update channel.`}),
         { components: [
@@ -73,7 +99,11 @@ module.exports = class extends Command {
         if (followExists) return ctx.sendMsg(new ctx.EmbedBuilder().setTitle('Channel Follow Cancelled').setDescription(`The channel ${updateChannel} is already following ${followChannel}.`).setColor('Red'), {components:[],ephemeral:true});
         
         const webhook = await updateChannel.createWebhook({ name: `${ctx.guild.name} #${followChannel.name}`, avatar: ctx.client.guilds.cache.get(ctx.guild.id).iconURL({format:"png",static:true}), reason: `Followed ${followChannel.name} (${followChannel.id}) from ${ctx.guild.name}` });
-        await ctx.database.insertOne('follow', { guildid: ctx.guild.id, channelid: updateChannel.id, followid: followChannel.id, active: true, webhook: { id: webhook.id, token: webhook.token }, messages: [] });
+        await ctx.database.insertOne('follow', { 
+          guildid: ctx.guild.id, channelid: updateChannel.id, followid: followChannel.id, 
+          active: true, webhook: { id: webhook.id, token: webhook.token }, messages: [],
+          copy_pings: ctx.args.getString('copy-pings') || 'none', copy_content: ctx.args.getString('copy-content') || 'yes'
+        });
         return ctx.sendMsg(new ctx.EmbedBuilder().setTitle('Channel Followed 🎉').setDescription(`The channel ${followChannel} was successfully **followed**.`).setColor('Green'), {components:[], ephemeral:true});
       }
     })

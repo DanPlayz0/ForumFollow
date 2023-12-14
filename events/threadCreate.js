@@ -24,12 +24,21 @@ module.exports = class extends Event {
     if(followMessage.length > 2000) followMessage = followMessage.slice(0,1997)+'...'
 
     for (let follower of followedPeople) {
+      let followerMessage = followMessage;
+      if (follower.copy_content == 'no') followerMessage = `**${thread.name}**`;
+
+      let followerMentions = [];
+      if (follower.copy_pings == 'role') followerMentions.push("roles");
+      else if (follower.copy_pings == 'user') followerMentions.push("users");
+      else if (follower.copy_pings == 'user_role') followerMentions.push("users", "roles");
+      else if (follower.copy_pings == 'everyone') followerMentions.push("everyone");
+
       const sentMessage = await client.pkg.axios.post(`https://discord.com/api/webhooks/${follower.webhook.id}/${follower.webhook.token}?wait=true`, {
-        content: followMessage,
+        content: followerMessage,
         components: [
           {type:1,components:[{type:2, style:5, label: "Original Message", url: message.url }] }
         ],
-        allowed_mentions: { parse: [] },
+        allowed_mentions: { parse: followerMentions },
       }, {headers:{"Content-Type":"application/json"}}).then(x=>({data:x.data, code: x.status})).catch(err=>({data:err.response.data, code: err.response.status}));
       await client.database.updateOne('follow', { guildid: follower.guildid, channelid: follower.channelid, followid: follower.followid, active: true }, {$push:{messages:
         {...sentMessage, reference: { threadId: thread.id, messageId: message.id} }
