@@ -16,5 +16,8 @@ module.exports = class extends Event {
       .setColor('#36393E')
       .setDescription(`Members: ${guild.memberCount}\nID: ${guild.id}\nOwner: ${owner.username} (${guild.ownerId})`);
     client.webhooks.guilds.send({embeds: [e], allowedMentions: { parse: [] }});
+
+    const db = await client.database.findOne('guilds', { id: guild.id });
+    if (db) await client.database.updateOne('guilds', {id: guild.id}, {$set:{ botInServer: false, lastUpdate: new Date().toISOString() }});
   }
 }
