@@ -4,11 +4,8 @@ const { Partials } = require('discord.js');
 const BotClient = require('@structures/bot/Client.js');
 const client = new BotClient({ 
   intents: [
-    'Guilds', 'GuildBans',
-    'GuildEmojisAndStickers',
-    'GuildIntegrations', 'GuildWebhooks', 
-    'GuildInvites', 'DirectMessages',
-    'GuildMessages', 'GuildMessageReactions',
+    'Guilds', 'GuildWebhooks', 
+    'DirectMessages', 'GuildMessages',
     'MessageContent',
   ],
   partials: [Partials.Message, Partials.Channel]
