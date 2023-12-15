@@ -21,7 +21,7 @@ module.exports = class extends Command {
         {
           type: 3,
           name: 'copy-pings',
-          description: "Whether to copy pings from the forum thread. (This can cause un-intended @everyone/@here pings. Use with caution.)",
+          description: "Whether to copy pings from the forum thread. (Use with caution.)",
           required: true,
           choices: [
             { name: 'All Pings (everyone, here, user & role)', value: 'all' },
