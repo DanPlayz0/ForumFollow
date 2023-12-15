@@ -33,7 +33,8 @@ module.exports = class extends Command {
     if(!ctx.member.permissions.has('ManageChannels')) return ctx.sendMsg('You must have `MANAGE_CHANNELS` to set a channel as followable.');
 
     const channel = ctx.args.getChannel('channel'), behaviorStr = ctx.args.getString('crosspost');
-    const forumFollow = await ctx.database.findOne('channels', {id: channel.id});
+    const forumFollow = await ctx.database.findOne('channels', {id: channel.id, guildid: ctx.guild.id});
+    
     if(forumFollow) {
       await ctx.database.updateOne('channels', {id: channel.id}, {$set: { behavior: behaviorStr }})
       ctx.sendMsg(`Crossposting behavior changed from \`${crosspostBehaviors.find(x=>x.value === forumFollow.behavior)?.name}\` to \`${crosspostBehaviors.find(x=>x.value === behaviorStr).name}\``)
@@ -56,7 +57,7 @@ module.exports = class extends Command {
       await followAble.edit({flags:2});
     } catch {}
 
-    await ctx.database.insertOne('channels', { id: channel.id, behavior: behaviorStr, followByOthers: "everyone" });
+    await ctx.database.insertOne('channels', { id: channel.id, guildid: ctx.guild.id, behavior: behaviorStr, followByOthers: "everyone" });
     ctx.sendMsg(`People can now follow ${ctx.args.getChannel('channel')} and posts will only be crossposted \`${crosspostBehaviors.find(x=>x.value === behaviorStr).name}\`!`, {ephemeral: true})
   }
   

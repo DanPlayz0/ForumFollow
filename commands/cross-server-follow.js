@@ -32,10 +32,10 @@ module.exports = class extends Command {
     if(!ctx.member.permissions.has('ManageGuild')) return ctx.sendMsg('You must have `MANAGE_GUILD` to configure a channel.');
 
     const channel = ctx.args.getChannel('channel'), behaviorStr = ctx.args.getString('toggle');
-    const forumFollow = await ctx.database.findOne('channels', {id: channel.id});
+    const forumFollow = await ctx.database.findOne('channels', {id: channel.id, guildid: ctx.guild.id});
     if (!forumFollow) return ctx.sendMsg("Please set that channel as a followable channel before configuring the cross-server following setting.");
     
-    await ctx.database.updateOne('channels', {id: channel.id}, {$set: { followByOthers: behaviorStr }})
+    await ctx.database.updateOne('channels', {id: channel.id, guildid: ctx.guild.id}, {$set: { followByOthers: behaviorStr }})
     ctx.sendMsg(`The behavior for other servers has changed from \`${crosspostBehaviors.find((x) => x.value === (forumFollow?.followByOthers||"everyone"))?.name}\` to \`${crosspostBehaviors.find((x) => x.value === behaviorStr)?.name}\``)
   }
   
