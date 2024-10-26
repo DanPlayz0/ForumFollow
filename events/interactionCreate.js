@@ -21,6 +21,14 @@ module.exports = class extends Event {
         `2. Run \`/follow id:${interaction.channel.parentId}\`\n`,
         "The update channel is going to be where the updates will be sent"
       ].join('\n'),
+      components: [
+        {
+          type: 1,
+          components: [
+            {type:2, style:5, label: "Invite", url: `https://discord.com/api/oauth2/authorize?client_id=1023320359786774528&permissions=395674250320&scope=applications.commands%20bot` },
+          ]
+        }
+      ],
       ephemeral: true,
     })
   }
