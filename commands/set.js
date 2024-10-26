@@ -48,9 +48,12 @@ module.exports = class extends Command {
           content: "Add this channel's posts to your server!\nPressing the button below will provide instructions to follow this channel.", 
           components: [
             {type:1, components:[
-            {type:2, style:3, label: "Follow", custom_id: 'follow_channel'},
-            {type:2, style:5, label: "Invite", url: `https://discord.com/api/oauth2/authorize?client_id=1023320359786774528&permissions=395674250320&scope=applications.commands%20bot` }
-          ]}]
+              {type:2, style:3, label: "Follow", custom_id: 'follow_channel'},
+              {type:2, style:5, label: "Invite", url: `https://discord.com/api/oauth2/authorize?client_id=1023320359786774528&permissions=395674250320&scope=applications.commands%20bot` },
+              {type:2, style:5, label: "Terms of Service", url: `https://gist.github.com/DanPlayz0/96589fd6509926ae8dc3aa315e629705` },
+              {type:2, style:5, label: "Privacy Policy", url: `https://gist.github.com/DanPlayz0/ecbbfb7104570e366353a056b9e254d2` },
+            ]
+          }]
         }
       });
       await followAble.join();

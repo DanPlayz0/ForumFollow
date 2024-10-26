@@ -32,7 +32,8 @@ module.exports = class extends Command {
         "- Either it crossposts when the forum thread is created.",
         "- or crossposts when you use the context menu",
         "\nUsers can follow a channel via the `/follow` command.",
-        "- Instructions for the `/follow` command is given within the thread created by the `/set` command"
+        "- Instructions for the `/follow` command is given within the thread created by the `/set` command",
+        `\nBy using ForumFollow, you agree to the [Terms of Service](${ctx.client.config.terms_of_service}) and [Privacy Policy](${ctx.client.config.privacy_policy})`
       ].join('\n'))
     ctx.sendMsg(embed)
   }
