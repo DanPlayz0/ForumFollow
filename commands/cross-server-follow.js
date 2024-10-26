@@ -36,7 +36,7 @@ module.exports = class extends Command {
     if (!forumFollow) return ctx.sendMsg("Please set that channel as a followable channel before configuring the cross-server following setting.");
     
     await ctx.database.updateOne('channels', {id: channel.id, guildid: ctx.guild.id}, {$set: { followByOthers: behaviorStr }})
-    ctx.sendMsg(`The behavior for other servers has changed from \`${crosspostBehaviors.find((x) => x.value === (forumFollow?.followByOthers||"everyone"))?.name}\` to \`${crosspostBehaviors.find((x) => x.value === behaviorStr)?.name}\``)
+    ctx.sendMsg(`The behavior for other servers (for that channel) has changed from \`${crosspostBehaviors.find((x) => x.value === (forumFollow?.followByOthers||"everyone"))?.name}\` to \`${crosspostBehaviors.find((x) => x.value === behaviorStr)?.name}\``)
   }
   
 }
