@@ -26,7 +26,7 @@ module.exports = class extends Command {
           name: 'crosspost',
           description: 'The behavior of the crossposting.',
           choices: crosspostBehaviors,
-          required: true,
+          required: false,
         },
         { 
           type: 3,
@@ -43,12 +43,13 @@ module.exports = class extends Command {
   async run(ctx) {
     if(!ctx.member.permissions.has('ManageChannels')) return ctx.sendMsg('You must have `MANAGE_CHANNELS` to set a channel as followable.');
 
-    const channel = ctx.args.getChannel('channel'), crosspostStr = ctx.args.getString('crosspost'), followByOthersStr = ctx.args.getString('cross-server-follow') || 'everyone';
+    const channel = ctx.args.getChannel('channel'), crosspostStr = ctx.args.getString('crosspost') || 'create', followByOthersStr = ctx.args.getString('cross-server-follow') || 'everyone';
     const forumFollow = await ctx.database.findOne('channels', {id: channel.id, guildid: ctx.guild.id});
     
     if(forumFollow) {
+      if(forumFollow.behavior === crosspostStr && forumFollow.followByOthers === followByOthersStr) return ctx.sendMsg(`Crossposting behavior is already set to \`${crosspostBehaviors.find(x=>x.value === crosspostStr).name}\` and other servers already ${followByOthersStr == 'everyone' ? 'can' : 'cannot'} follow that channel!`, {ephemeral: true});
       await ctx.database.updateOne('channels', {id: channel.id}, {$set: { behavior: crosspostStr, followByOthers: followByOthersStr }});
-      ctx.sendMsg(`Crossposting behavior changed from \`${crosspostBehaviors.find(x=>x.value === forumFollow.behavior)?.name}\` to \`${crosspostBehaviors.find(x=>x.value === crosspostStr).name}\``)
+      ctx.sendMsg(`Crossposting behavior has been updated to \`${crosspostBehaviors.find(x=>x.value === crosspostStr).name}\` (Previously ${crosspostBehaviors.find(x=>x.value === forumFollow.behavior).name}) and other servers ${followByOthersStr == 'everyone' ? 'can' : 'cannot'} (Previously ${forumFollow.followByOthers == 'everyone' ? 'can' : 'cannot'}) follow that channel!`, {ephemeral: true});
       return;
     }
 
@@ -72,7 +73,7 @@ module.exports = class extends Command {
     } catch {}
 
     await ctx.database.insertOne('channels', { id: channel.id, guildid: ctx.guild.id, behavior: crosspostStr, followByOthers: followByOthersStr });
-    ctx.sendMsg(`People can now follow ${ctx.args.getChannel('channel')} and posts will only be crossposted \`${crosspostBehaviors.find(x=>x.value === crosspostStr).name}\`!`, {ephemeral: true})
+    ctx.sendMsg(`People can now follow ${ctx.args.getChannel('channel')} and posts will only be crossposted \`${crosspostBehaviors.find(x=>x.value === crosspostStr).name}\` and other servers ${followByOthersStr == 'everyone' ? 'can' : 'cannot'} follow that channel!`, {ephemeral: true})
   }
   
 }
