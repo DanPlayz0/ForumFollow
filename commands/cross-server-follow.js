@@ -12,7 +12,7 @@ module.exports = class extends Command {
         {
           type: 7,
           name: 'channel',
-          description: 'A fourm channel.',
+          description: 'A forum channel.',
           channel_types: [15],
           required: true,
         },

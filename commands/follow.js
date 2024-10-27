@@ -8,7 +8,7 @@ module.exports = class extends Command {
         {
           type: 3,
           name: 'id',
-          description: 'A fourm channel id to follow.',
+          description: 'A forum channel id to follow.',
           required: true,
         },
         {

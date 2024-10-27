@@ -12,12 +12,12 @@ module.exports = class extends Command {
   constructor(client) {
     super(client, {
       enabled: true,
-      description: 'Make a fourm channel followable.',
+      description: 'Make a forum channel followable.',
       options: [
         {
           type: 7,
           name: 'channel',
-          description: 'A fourm channel.',
+          description: 'A forum channel.',
           channel_types: [15],
           required: true,
         },
