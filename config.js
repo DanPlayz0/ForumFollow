@@ -5,7 +5,11 @@ module.exports = {
 
   // Bot Administators (Access to Admin Dash & System Commands)
   admins: ['209796601357533184', '229285505693515776'],
-  
+ 
+  // Legal
+  terms_of_service: "https://gist.github.com/DanPlayz0/96589fd6509926ae8dc3aa315e629705",
+  privacy_policy: "https://gist.github.com/DanPlayz0/ecbbfb7104570e366353a056b9e254d2",
+
   // Database Crap (MongoDB)
   mongo_uri: process.env.MONGODB_URI,
   
@@ -14,7 +18,7 @@ module.exports = {
  
   // Restful API
   restapi: {
-    port: 3000,
+    port: parseInt(process.env.API_PORT || "3000"),
   },
   
   // Bot Logging (Webhooks)
