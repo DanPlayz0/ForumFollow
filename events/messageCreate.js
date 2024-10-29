@@ -17,18 +17,42 @@ module.exports = class extends Event {
       const channel = await client.channels.fetch(relay.channelid);
       if (!channel) continue;
 
-      try {
-        await channel.threads.create({
-          name: getTitle(message, 100),
-          appliedTags: [channel.availableTags.find(tag => tag.name === 'Relay')?.id, relay.tag].filter(x=>x),
-          message: message.content.slice(0, 2000),
-          reason: `Relayed by ${message.author.tag} (${message.author.id})`,
-        })
-      } catch (err) {
-        console.log(err);
-        await sleep(800);
-        continue;
+      if (relay.threadid) {
+        // Existing Thread Relay
+        const thread = await channel.threads.fetch(relay.threadid);
+        if (!thread) {
+          await client.database.deleteOne('relay', {webhookid: message.webhookId, guildid: message.guild.id, channelid: channel.id, threadid: relay.threadid});
+          continue;
+        }
+
+        try {
+          await thread.send({
+            content: message.content.slice(0, 2000),
+            files: message.attachments.map(a => a.url),
+            allowedMentions: {parse: []},
+          });
+        } catch (err) {
+          console.log(err);
+          await sleep(800);
+          continue;
+        }
+      } else {
+        // New Thread Relay
+        try {
+          await channel.threads.create({
+            name: getTitle(message, 100),
+            appliedTags: [channel.availableTags.find(tag => tag.name === 'Relay')?.id, relay.tag].filter(x=>x),
+            message: message.content.slice(0, 2000),
+            reason: `Relayed by ${message.author.tag} (${message.author.id})`,
+          })
+        } catch (err) {
+          console.log(err);
+          await sleep(800);
+          continue;
+        }
       }
+
+      
       await sleep(200);
     }
   }
