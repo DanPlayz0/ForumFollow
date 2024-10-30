@@ -95,7 +95,7 @@ module.exports = class extends Command {
     if (thread) {
       const relayFollow = await ctx.database.findOne('relay', {webhookid: followWebhook.id, guildid: ctx.guild.id, channelid: channel.id, threadid: thread});
       if(relayFollow) return ctx.sendMsg(`This webhook is already being relayed to ${channel} in the thread \`${thread}\``, {ephemeral: true});
-      await ctx.database.insertOne('relay', {webhookid: followWebhook.id, guildid: ctx.guild.id, channelid: channel.id, threadid: thread});
+      await ctx.database.insertOne('relay', {id: String(Date.now()), webhookid: followWebhook.id, guildid: ctx.guild.id, channelid: channel.id, threadid: thread});
       ctx.sendMsg(`This webhook is now being relayed to ${channel} in the thread \`${thread}\``, {ephemeral: true});
       return;
     }
