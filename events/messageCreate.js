@@ -27,7 +27,8 @@ module.exports = class extends Event {
 
         try {
           await thread.send({
-            content: message.content.slice(0, 2000),
+            content: message.content?.slice(0, 2000),
+            embeds: [...message.embeds],
             files: message.attachments.map(a => a.url),
             allowedMentions: {parse: []},
           });
