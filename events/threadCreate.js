@@ -25,7 +25,7 @@ module.exports = class extends Event {
       return;
     }
 
-    let followMessage = `**${thread.name}**\n${message.content}`;
+    let followMessage = `**${thread.name}**\n${message?.content || "[Missing content]"}`;
     if(followMessage.length > 2000) followMessage = followMessage.slice(0,1997)+'...'
 
     for (let follower of followedPeople) {
