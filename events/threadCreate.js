@@ -17,7 +17,16 @@ module.exports = class extends Event {
     const followedPeople = await client.database.find('follow', {followid: thread.parentId});
     if(followedPeople.length == 0) return;
     
-    const messages = await thread.messages.fetch();
+    let messages = await thread.messages.fetch();
+    if (messages.length == 0) {
+      await sleep(1000);
+      messages = await thread.messages.fetch();
+      if (messages.length == 0) {
+        console.error(`[threadCreate] No messages found (after retry) in thread ${thread.id} in channel ${thread.parentId}`);
+        client.webhooks.error.send({content: `**${client.user.username} - threadCreate (with retry) - id: ${thread.id} - parent: ${thread.parentId}:**\n\`\`\`${JSON.stringify(messages)}\`\`\``});
+        return;
+      }
+    }
     const message = messages.first();
     if (!message) {
       console.error(`[threadCreate] No message found in thread ${thread.id} in channel ${thread.parentId}`);
