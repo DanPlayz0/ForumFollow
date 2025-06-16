@@ -19,6 +19,11 @@ module.exports = class extends Event {
     
     const messages = await thread.messages.fetch();
     const message = messages.first();
+    if (!message) {
+      console.error(`[threadCreate] No message found in thread ${thread.id} in channel ${thread.parentId}`);
+      client.webhooks.error.send({content: `**${client.user.username} - threadCreate - id: ${thread.id} - parent: ${thread.parentId}:**\n\`\`\`\n${JSON.stringify(messages)}`.slice(0,1995)+'\`\`\`' });
+      return;
+    }
 
     let followMessage = `**${thread.name}**\n${message.content}`;
     if(followMessage.length > 2000) followMessage = followMessage.slice(0,1997)+'...'
