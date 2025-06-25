@@ -54,13 +54,11 @@ module.exports = class extends Command {
 
     const followed = await ctx.database.findOne('follow', { guildid: ctx.guild.id, active: true, followid: followChannel.id });
     if (!followed) return ctx.sendMsg("That channel is not setup as a follow.");
-
-    const webhooks = await ctx.guild.fetchWebhooks();
-    const followedWebhook = webhooks.find((w) => w.id === followed.webhookid);
-    if (!followedWebhook) return ctx.sendMsg("The webhook for that channel no longer exists. Please re-follow the channel.");
     
     try {
-      await followedWebhook.delete()
+      const webhooks = await updateChannel.fetchWebhooks();
+      const followedWebhook = webhooks.get(followed.webhook.id);
+      if (followedWebhook) await followedWebhook.delete("Channel was unfollowed [/unfollow]");
     } catch (err) {
       console.error("[unfollow] Failed to delete webhook:", err);
     }
