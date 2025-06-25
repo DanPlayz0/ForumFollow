@@ -56,7 +56,7 @@ module.exports = class extends Command {
     if (!followed) return ctx.sendMsg("That channel is not setup as a follow.");
 
     const webhooks = await ctx.guild.fetchWebhooks();
-    const followedWebhook = webhooks.find((w) => w.webhook.id === followed.webhookid);
+    const followedWebhook = webhooks.find((w) => w.id === followed.webhookid);
     if (!followedWebhook) return ctx.sendMsg("The webhook for that channel no longer exists. Please re-follow the channel.");
     
     try {
