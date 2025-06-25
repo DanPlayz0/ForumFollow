@@ -19,19 +19,16 @@ module.exports = class extends Event {
     
     let messages = await thread.messages.fetch();
     let message = messages.first();
-    if (!message) {
-      await sleep(1000);
+    let attempts = 1;
+    while (!message && attempts < 6) {
+      attempts++;
+      await sleep(attempts*1000);
       messages = await thread.messages.fetch();
       message = messages.first();
-      if (!message) {
-        console.error(`[threadCreate] No messages found (after retry) in thread ${thread.id} in channel ${thread.parentId}`);
-        client.webhooks.error.send({content: `**${client.user.username} - threadCreate (with retry) - id: ${thread.id} - parent: ${thread.parentId}:**\n\`\`\`${JSON.stringify(messages)}\`\`\``});
-        return;
-      }
     }
     if (!message) {
-      console.error(`[threadCreate] No message found in thread ${thread.id} in channel ${thread.parentId}`);
-      client.webhooks.error.send({content: `**${client.user.username} - threadCreate - id: ${thread.id} - parent: ${thread.parentId}:**\n\`\`\`\n${JSON.stringify(messages)}`.slice(0,1995)+'\`\`\`' });
+      console.error(`[threadCreate] No messages found (after 6 fetches) in thread ${thread.id} in channel ${thread.parentId}`);
+      client.webhooks.error.send({content: `**${client.user.username} - threadCreate (with retry) - id: ${thread.id} - parent: ${thread.parentId}:**\n\`\`\`${JSON.stringify(messages)}\`\`\``});
       return;
     }
 
