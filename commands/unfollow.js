@@ -35,7 +35,7 @@ module.exports = class extends Command {
           value: f.followid,
         };
       });
-      return options.filter((option) => option.name.toLowerCase().includes(focused.value.toLowerCase()));
+      return options.filter((option) => option.name.toLowerCase().includes(focused.value.toLowerCase())).slice(0, 25);
     }
   }
 
